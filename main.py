@@ -10,7 +10,7 @@ class Win(WinGUI):
     def __init__(self):
         super().__init__()
         self.__event_bind()
-        self.cache_date = cache_data.CacheData()
+        self.cache_data = cache_data.CacheData()
         self.msg = queue.Queue()
 
     def __event_bind(self):
@@ -25,24 +25,24 @@ class Win(WinGUI):
             self.tk_label_msg.config(text=txt)
 
     def _onclick_encode(self, event):
-        if self.cache_date.mode != 0 and self.cache_date.mode != 1:
+        if self.cache_data.mode != 0 and self.cache_data.mode != 1:
             self.msg.put("当前接收模式进行中，点此中断。")
-            # print(self.cache_date.mode)
+            # print(self.cache_data.mode)
             return
-        img2txt.img_2_txt(self.msg, self.cache_date)
+        img2txt.img_2_txt(self.msg, self.cache_data)
 
     def _onclick_decode(self, event):
-        if self.cache_date.mode != 0 and self.cache_date.mode != 2:
+        if self.cache_data.mode != 0 and self.cache_data.mode != 2:
             self.msg.put("当前发送模式进行中，点此中断。")
             return
-        txt2img.txt_2_img(self.msg, self.cache_date)
+        txt2img.txt_2_img(self.msg, self.cache_data)
 
     def _onclick_label(self, event):
-        if self.cache_date.mode == 0:
+        if self.cache_data.mode == 0:
             self.msg.put("已经重置过了！")
             return
-        # 重新初始化一个缓存对象
-        self.cache_date = cache_data.CacheData()
+        # 重新初始化缓存
+        self.cache_data.__init__()
         self.msg.put("已重置！")
 
 
