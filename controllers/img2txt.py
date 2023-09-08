@@ -7,6 +7,8 @@ import zlib
 import math
 import pyperclip
 import queue
+import time
+import threading
 
 frame_length = 4090
 
@@ -65,6 +67,12 @@ def img_2_txt(msg: Queue, cache_data: CacheData):
     else:
         msg.put(f"传输中：{cache_data.current_frame}/{cache_data.all_frame}  点击加密继续。")
 
+        if not cache_data.auto_thread_flag:
+            # 不存在自动线程
+            cache_data.auto_thread_flag = 1
+            threading.Thread(target=auto, args=(msg, cache_data), daemon=True).start()
+
+
 
 def resume(cache_data: CacheData):
 
@@ -72,6 +80,31 @@ def resume(cache_data: CacheData):
     pyperclip.copy(cur_frame)
     cache_data.current_frame += 1
     cache_data.remainder_data = cache_data.remainder_data[frame_length:]
+
+
+def auto(msg: Queue, cache_data: CacheData):
+
+    # print(f"auto thread start  {cache_data.mode}")
+    retry = 20
+    while retry:
+        if cache_data.mode != 1:
+            break
+        if cache_data.current_frame == cache_data.all_frame:
+            break
+
+        mask_code = pyperclip.paste()
+        if mask_code == "@I<3SF!":
+            img_2_txt(msg, cache_data)
+            time.sleep(1)
+
+            # 开始自动传输后 重试次数重置
+            retry = 20
+            continue
+
+        retry -= 1
+        time.sleep(1) 
+    cache_data.auto_thread_flag = 0
+    msg.put("--refresh")
 
 
 if __name__ == '__main__':

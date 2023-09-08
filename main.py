@@ -20,8 +20,17 @@ class Win(WinGUI):
 
     def set_msg(self, event=False):
         while True:
+
+            # 控制auto标识
+            if self.cache_data.auto_thread_flag:
+                self.tk_label_auto.place(x=0, y=15, width=15, height=16)
+            else:
+                self.tk_label_auto.place_forget()
+            
             txt = self.msg.get()
-            print(txt)
+            if txt == "--refresh":
+                continue
+            # print(txt)
             self.tk_label_msg.config(text=txt)
 
     def _onclick_encode(self, event):

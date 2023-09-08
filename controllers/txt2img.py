@@ -6,6 +6,8 @@ from queue import Queue
 from utils.cache_data import CacheData
 import io
 import win32clipboard
+import time
+import threading
 
 
 def encrypt2bmp(msg: Queue, encrypt_str: str):
@@ -71,6 +73,13 @@ def txt_2_img(msg: Queue, cache_data: CacheData):
             cache_data.mode = 2
             cache_data.current_frame = 1
             msg.put(f"接收中：{cache_data.current_frame}/{cache_data.all_frame}")
+            
+            # 首次解码启动自动线程
+            if not cache_data.auto_thread_flag:
+                # 不存在自动线程
+                cache_data.auto_thread_flag = 1
+                threading.Thread(target=auto, args=(msg, cache_data), daemon=True).start()
+
             return
         # 单帧
         else:
@@ -101,3 +110,33 @@ def resume(msg: Queue, cache_data: CacheData, encrypt_str: str):
         msg.put("解码完成，已复制到剪切板！")
     else:
         msg.put(f"接收中：{cache_data.current_frame}/{cache_data.all_frame}")
+
+
+def auto(msg: Queue, cache_data: CacheData):
+
+    # print(f"auto thread start  {cache_data.mode}")
+    retry = 20
+    while retry:
+        if cache_data.mode != 2:
+            break
+        if cache_data.current_frame == cache_data.all_frame:
+            break
+        
+        # 粘贴maskcode
+        pyperclip.copy("@I<3SF!")
+        time.sleep(1.5)
+
+        # 获取剪切板数据
+        encrypt_str = pyperclip.paste()
+        if encrypt_str != "@I<3SF!":
+            resume(msg, cache_data, encrypt_str)
+
+            # 开始自动传输后 重试次数重置
+            retry = 15
+            continue
+
+        retry -= 1
+        time.sleep(1)
+
+    cache_data.auto_thread_flag = 0
+    msg.put("--refresh")

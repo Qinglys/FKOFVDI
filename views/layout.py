@@ -10,6 +10,7 @@ class WinGUI(Tk):
         self.tk_label_msg = self.__tk_label_msg(self)
         self.tk_button_encode = self.__tk_button_encode(self)
         self.tk_button_decode = self.__tk_button_decode(self)
+        self.tk_label_auto = self.__tk_label_auto(self)
 
     def __win(self):
         self.title("F**KOFVDI")
@@ -59,6 +60,11 @@ class WinGUI(Tk):
         btn = Button(parent, text="解码", takefocus=False, )
         btn.place(x=180, y=64, width=98, height=30)
         return btn
+    
+    def __tk_label_auto(self,parent):
+        label = Label(parent,text="A",anchor="center", foreground="green")
+        label.place(x=0, y=15, width=15, height=16)
+        return label
 
 
 class Win(WinGUI):
