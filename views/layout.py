@@ -1,6 +1,17 @@
 from tkinter import *
 from tkinter.ttk import *
 from typing import Dict
+import os
+import sys
+
+
+def get_path(relative_path):
+    try:
+        base_path = sys._MEIPASS # pyinstaller打包后的路径
+    except AttributeError:
+        base_path = os.path.abspath(".") # 当前工作目录的路径
+    print(os.path.normpath(os.path.join(base_path, relative_path)))
+    return os.path.normpath(os.path.join(base_path, relative_path)) # 返回实际路径
 
 
 class WinGUI(Tk):
@@ -22,7 +33,13 @@ class WinGUI(Tk):
         geometry = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
         self.geometry(geometry)
         self.resizable(width=False, height=False)
-        # 自动隐藏滚动条
+        
+        # 窗口保持最前
+        self.wm_attributes("-topmost", True)
+
+        # 窗口logo
+        # abs_path = os.path.dirname(os.path.abspath(__file__))
+        self.iconbitmap(get_path("logo.ico"))
 
     def scrollbar_autohide(self, bar, widget):
         self.__scrollbar_hide(bar, widget)
