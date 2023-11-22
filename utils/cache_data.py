@@ -1,4 +1,5 @@
 class CacheData:
+    __slots__ = "remainder_data", "current_frame", "all_frame", "encrypted_data", "latest_frame", "mode", "auto_thread_flag"
     def __init__(self):
         self.remainder_data = ""
         self.current_frame = 0

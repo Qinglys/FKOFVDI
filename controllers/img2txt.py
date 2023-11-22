@@ -45,7 +45,7 @@ def img_2_txt(msg: Queue, cache_data: CacheData):
 
         cache_data.mode = 1
         # 总分片数放在开头
-        ret = "{:0>2}".format(math.ceil(len(ret)/frame_length)) + ret
+        ret = "{:0>2}".format(math.ceil((len(ret)+2)/frame_length)) + ret
 
         # 初始化总分片数、总加密数据
         cache_data.encrypted_data = ret
