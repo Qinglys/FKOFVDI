@@ -10,7 +10,7 @@ def get_path(relative_path):
         base_path = sys._MEIPASS # pyinstaller打包后的路径
     except AttributeError:
         base_path = os.path.abspath(".") # 当前工作目录的路径
-    print(os.path.normpath(os.path.join(base_path, relative_path)))
+    # print(os.path.normpath(os.path.join(base_path, relative_path)))
     return os.path.normpath(os.path.join(base_path, relative_path)) # 返回实际路径
 
 
@@ -39,7 +39,7 @@ class WinGUI(Tk):
 
         # 窗口logo
         # abs_path = os.path.dirname(os.path.abspath(__file__))
-        self.iconbitmap(get_path("logo.ico"))
+        self.iconbitmap(get_path("./views/logo.ico"))
 
     def scrollbar_autohide(self, bar, widget):
         self.__scrollbar_hide(bar, widget)
