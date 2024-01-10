@@ -6,7 +6,7 @@ block_cipher = None
 
 a = Analysis(
     ['main.py'],
-    pathex=[],
+    pathex=['./venv/Lib/'],
     binaries=[],
     datas=[('views/logo.ico', './views/')],
     hiddenimports=[],
