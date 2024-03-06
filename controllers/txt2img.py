@@ -25,7 +25,7 @@ def encrypt2bmp(msg: Queue, encrypt_str: str):
     # 解压 -> JPEG格式二进制数据
     try:
         img_binary = zlib.decompress(zip_img)
-    except Exception:
+    except zlib.error:
         msg.put("解压失败！")
         return None
 

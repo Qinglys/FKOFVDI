@@ -31,7 +31,7 @@ def img_2_txt(msg: Queue, cache_data: CacheData):
         # 做一遍转换
         if img.mode != 'RGB':
             img = img.convert(mode="RGB")
-        img.save(buffer, format='JPEG')
+        img.save(buffer, format='BMP')
 
         # 图片再压缩一次
         compressed_data = zlib.compress(buffer.getvalue())
