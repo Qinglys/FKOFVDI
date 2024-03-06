@@ -27,11 +27,17 @@ def img_2_txt(msg: Queue, cache_data: CacheData):
 
         buffer = BytesIO()
 
-        # todo: 复制贴到屏幕上的图片 无法以JPEG保存
-        # 做一遍转换
-        if img.mode != 'RGB':
-            img = img.convert(mode="RGB")
-        img.save(buffer, format='BMP')
+        # 是否使用JPEG格式
+        if cache_data.is_zip:
+            # 复制贴到屏幕上的图片 无法以JPEG保存 做一遍转换
+            if img.mode != 'RGB':
+                img = img.convert(mode="RGB")
+            img.save(buffer, format='JPEG')
+            # print("JPEG\t", len(zlib.compress(buffer_tmp.getvalue())))
+        else:
+            # 不存jpeg，用BMP，不压缩
+            img.save(buffer, format='BMP')
+            # print("BMP\t", len(zlib.compress(buffer.getvalue())))
 
         # 图片再压缩一次
         compressed_data = zlib.compress(buffer.getvalue())

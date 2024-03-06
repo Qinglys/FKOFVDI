@@ -22,6 +22,7 @@ class WinGUI(Tk):
         self.tk_button_encode = self.__tk_button_encode(self)
         self.tk_button_decode = self.__tk_button_decode(self)
         self.tk_label_auto = self.__tk_label_auto(self)
+        self.tk_label_zip = self.__tk_label_zip(self)
 
     def __win(self):
         self.title("F**KOFVDI")
@@ -81,6 +82,11 @@ class WinGUI(Tk):
     def __tk_label_auto(self,parent):
         label = Label(parent,text="A",anchor="center", foreground="green")
         label.place(x=0, y=15, width=15, height=16)
+        return label
+    
+    def __tk_label_zip(self,parent):
+        label = Label(parent,text="BMP", foreground="green")
+        label.place(x=2, y=68, width=35, height=20)
         return label
 
 

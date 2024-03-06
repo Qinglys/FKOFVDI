@@ -17,6 +17,7 @@ class Win(WinGUI):
         self.tk_label_msg.bind(sequence="<Button-1>", func=self._onclick_label)
         self.tk_button_encode.bind("<Button-1>", self._onclick_encode)
         self.tk_button_decode.bind("<Button-1>", self._onclick_decode)
+        self.tk_label_zip.bind("<Button-1>", self._onclick_label_zip)
 
     def set_msg(self, event=False):
         while True:
@@ -54,6 +55,13 @@ class Win(WinGUI):
         self.cache_data.__init__()
         self.msg.put("已重置！")
 
+    def _onclick_label_zip(self, event):
+        if self.cache_data.is_zip:
+            self.tk_label_zip.config(text="BMP")
+            self.cache_data.is_zip = 0
+        else:
+            self.tk_label_zip.config(text="JPEG")
+            self.cache_data.is_zip = 1
 
 if __name__ == '__main__':
     win = Win()

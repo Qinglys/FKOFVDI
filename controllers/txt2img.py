@@ -22,14 +22,14 @@ def encrypt2bmp(msg: Queue, encrypt_str: str):
         msg.put("BASE64解码失败！")
         return None
 
-    # 解压 -> JPEG格式二进制数据
+    # 解压 -> 图片二进制数据
     try:
         img_binary = zlib.decompress(zip_img)
     except zlib.error:
         msg.put("解压失败！")
         return None
 
-    # JPEG -> Image对象
+    # 图片二进制 -> Image对象
     img = Image.open(io.BytesIO(img_binary))
     # print(img.mode, type(img.mode))
 
@@ -38,14 +38,14 @@ def encrypt2bmp(msg: Queue, encrypt_str: str):
     img.save(buffer, format("BMP"))
 
     # 返回图像字节码
-    return buffer.getvalue()[14:]
+    return buffer.getvalue()[14:] # 开头的14个字节不需要
 
 
 def sent2clipboard(data):
     # 复制到剪切板
     win32clipboard.OpenClipboard()
     win32clipboard.EmptyClipboard()
-    win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)  # 开头的14个字节不需要
+    win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
     win32clipboard.CloseClipboard()
 
 
