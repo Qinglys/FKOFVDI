@@ -52,7 +52,7 @@ class Win(WinGUI):
             self.msg.put("已经重置过了！")
             return
         # 重新初始化缓存
-        self.cache_data.__init__()
+        self.cache_data._reset()
         self.msg.put("已重置！")
 
     def _onclick_label_zip(self, event):
