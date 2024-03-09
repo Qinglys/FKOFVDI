@@ -15,6 +15,7 @@ class Win(WinGUI):
 
     def __event_bind(self):
         self.tk_label_msg.bind(sequence="<Button-1>", func=self._onclick_label)
+        self.tk_label_msg.bind(sequence="<Button-3>", func=self._show_version)
         self.tk_button_encode.bind("<Button-1>", self._onclick_encode)
         self.tk_button_decode.bind("<Button-1>", self._onclick_decode)
         self.tk_label_zip.bind("<Button-1>", self._onclick_label_zip)
@@ -63,7 +64,12 @@ class Win(WinGUI):
             self.tk_label_zip.config(text="JPEG")
             self.cache_data.is_zip = 1
 
+    # 右键单击消息框触发版本号展示
+    def _show_version(self, event):
+        self.msg.put(version)
+
 if __name__ == '__main__':
+    version = "--- v0.11 ---"
     win = Win()
     threading.Thread(target=win.set_msg, daemon=True).start()
     win.mainloop()
