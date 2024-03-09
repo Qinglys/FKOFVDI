@@ -123,12 +123,12 @@ def auto(msg: Queue, cache_data: CacheData):
             break
         
         # 粘贴maskcode
-        pyperclip.copy("@I<3SF!")
+        pyperclip.copy(f"@I<3SF!{cache_data.current_frame}")
         time.sleep(1.5)
 
         # 获取剪切板数据
         encrypt_str = pyperclip.paste()
-        if encrypt_str != "@I<3SF!":
+        if encrypt_str != f"@I<3SF!{cache_data.current_frame}":
             resume(msg, cache_data, encrypt_str)
 
             # 开始自动传输后 重试次数重置
@@ -139,4 +139,4 @@ def auto(msg: Queue, cache_data: CacheData):
         time.sleep(1)
 
     cache_data.auto_thread_flag = 0
-    msg.put("--refresh")
+    msg.put("--refresh")  # 只更新 AUTO标志 不更新msg

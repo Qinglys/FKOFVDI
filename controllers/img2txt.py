@@ -99,7 +99,7 @@ def auto(msg: Queue, cache_data: CacheData):
             break
 
         mask_code = pyperclip.paste()
-        if mask_code == "@I<3SF!":
+        if mask_code == f"@I<3SF!{cache_data.current_frame}":
             img_2_txt(msg, cache_data)
             time.sleep(1)
 
