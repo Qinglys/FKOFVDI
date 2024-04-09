@@ -30,6 +30,9 @@ def img_2_txt(msg: Queue, cache_data: CacheData):
                     err = 0
                 except UnidentifiedImageError:
                     msg.put("剪切板非图片类型文件！")
+                except FileNotFoundError:
+                    msg.put("剪切板文件不存在！")
+                
             else:
                 msg.put('剪切板为空或非图片！')
 
