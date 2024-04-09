@@ -1,4 +1,4 @@
-from PIL import ImageGrab, Image
+from PIL import ImageGrab, Image, UnidentifiedImageError
 from io import BytesIO
 from utils.cache_data import CacheData
 from queue import Queue
@@ -21,9 +21,20 @@ def img_2_txt(msg: Queue, cache_data: CacheData):
     else:
 
         img = ImageGrab.grabclipboard()
+
         if not isinstance(img, Image.Image):
-            msg.put('剪切板为空或非图片！')
-            return 1
+            err = 1
+            if isinstance(img, list) and len(img) > 0:
+                try:
+                    img = Image.open(img[0])
+                    err = 0
+                except UnidentifiedImageError:
+                    msg.put("剪切板非图片类型文件！")
+            else:
+                msg.put('剪切板为空或非图片！')
+
+            if err:
+                return 1
 
         buffer = BytesIO()
 
