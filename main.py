@@ -69,7 +69,7 @@ class Win(WinGUI):
         self.msg.put(version)
 
 if __name__ == '__main__':
-    version = "--- v0.12 ---"
+    version = "--- v0.13 ---"
     win = Win()
     threading.Thread(target=win.set_msg, daemon=True).start()
     win.mainloop()
