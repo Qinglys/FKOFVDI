@@ -124,17 +124,21 @@ def auto(msg: Queue, cache_data: CacheData):
         
         # 粘贴maskcode
         pyperclip.copy(f"@I<3SF!{cache_data.current_frame}")
-
+        time.sleep(0.5)
+        
         retry = 30
         while retry:
-            time.sleep(1)
+            time.sleep(0.5)
             # 获取剪切板数据
             encrypt_str = pyperclip.paste()
             if encrypt_str != f"@I<3SF!{cache_data.current_frame}":
                 resume(msg, cache_data, encrypt_str)
                 break
-
             retry -= 1
+            # 重试十次后重新复制一次maskcode
+            if retry % 10 == 0:
+                pyperclip.copy(f"@I<3SF!{cache_data.current_frame}")
+                
         if not retry:
             break
 
